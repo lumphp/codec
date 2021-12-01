@@ -1,0 +1,39 @@
+{
+    "name": "lumphp/codec",
+    "description": "The encode/decode algorithm component.",
+    "authors": [
+        {
+            "name": "rustysun",
+            "email": "rustysun.cn@gmail.com",
+            "role": "Developer"
+        }
+    ],
+    "keywords": [
+        "Base64",
+        "Json",
+        "RSA"
+    ],
+    "license": "MIT",
+    "support": {
+        "issues": "https://github.com/lumphp/codec/issues",
+        "source": "https://github.com/lumphp/codec"
+    },
+    "require": {
+        "php": "^7.4|^8.0",
+        "ext-hash": "*",
+        "ext-json": "*",
+        "ext-openssl": "*",
+        "ext-sodium": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Lum\\Codec\\": "src/"
+        }
+    },
+    "extra": {
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "dev"
+}
