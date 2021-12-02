@@ -3,7 +3,7 @@ namespace Lum\Codec;
 
 use Exception;
 
-final class Ed25519 extends BaseSodium implements VerifyCodec
+class Sodium implements VerifyCodec
 {
     /**
      * @param string $data
@@ -15,14 +15,14 @@ final class Ed25519 extends BaseSodium implements VerifyCodec
     public function encode(string $data, array $params = []) : string
     {
         try {
-            $key = $params['key'];
-            $privateKey = $this->getPrivateKey($key);
+            $keyPair = $params['keyPair'];
+            $privateKey = $this->getPrivateKey($keyPair);
             $lines = array_filter(explode("\n", $privateKey));
             $secretKey = base64_decode(end($lines));
 
             return sodium_crypto_sign_detached($data, $secretKey);
         } catch (Exception $e) {
-            throw new CodecException($e->getCode(), $e->getMessage());
+            throw new CodecException(ErrCode::SODIUM_ENCODE_FAILED, $e->getMessage());
         }
     }
 
@@ -36,15 +36,25 @@ final class Ed25519 extends BaseSodium implements VerifyCodec
     public function verify(string $data, array $params = []) : bool
     {
         try {
-            $key = $params['key'];
-            $message = $params['message'];
-            $content = $this->getPublicKey($key);
+            $keyPair = $params['keyPair'];
+            $signature = $params['signature'];
+            $content = $this->getPublicKey($keyPair);
             $lines = array_filter(explode("\n", $content));
             $publicKey = base64_decode(end($lines));
 
-            return sodium_crypto_sign_verify_detached($data, $message, $publicKey);
+            return sodium_crypto_sign_verify_detached($signature, $data, $publicKey);
         } catch (Exception $e) {
-            throw new CodecException($e->getCode(), $e->getMessage());
+            throw new CodecException(ErrCode::SODIUM_VERIFY_FAILED, $e->getMessage());
         }
+    }
+
+    final protected function getPrivateKey(string $keyPair) : string
+    {
+        return base64_encode(sodium_crypto_sign_secretkey($keyPair));
+    }
+
+    final protected function getPublicKey(string $keyPair) : string
+    {
+        return base64_encode(sodium_crypto_sign_publickey($keyPair));
     }
 }

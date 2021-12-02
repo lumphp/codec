@@ -11,7 +11,10 @@
     "keywords": [
         "Base64",
         "Json",
-        "RSA"
+        "RSA",
+        "EcDsa",
+        "ED25519",
+        "OpenSSL"
     ],
     "license": "MIT",
     "support": {

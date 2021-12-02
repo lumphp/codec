@@ -11,16 +11,23 @@ final class CodecUtil
     const JSON = 'json';
     const JWT = 'jwt';
     const ASN1DER = 'der';
-    const ECDSA = 'ECDsa';
-    const ED25519 = 'Ed25519';
+    const ECDSA = 'ecdsa';
+    const OPENSSL = 'openssl';
+    const RSA = 'rsa';
+    const ED25519 = 'ed25519';
+    const SODIUM = 'sodium';
     const SUPPORTED = [
         self::BASE64 => Base64::class,
         self::URL_BASE64 => UrlBase64::class,
         self::JSON => Json::class,
         self::JWT => Jwt::class,
         self::ASN1DER => Asn1Der::class,
-        self::ECDSA => ECDsa::class,
-        self::ED25519 => Ed25519::class,
+        self::ECDSA => OpenSSL::class,
+        self::RSA => OpenSSL::class,
+        self::ED25519 => Sodium::class,
+        //
+        self::OPENSSL => OpenSSL::class,
+        self::SODIUM => Sodium::class,
     ];
 
     /**
